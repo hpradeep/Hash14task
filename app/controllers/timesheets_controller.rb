@@ -24,17 +24,14 @@ class TimesheetsController < ApplicationController
   # POST /timesheets
   # POST /timesheets.json
   def create
-    @timesheet = Timesheet.new(timesheet_params)
-
-    respond_to do |format|
-      if @timesheet.save
-        format.html { redirect_to @timesheet, notice: 'Timesheet was successfully created.' }
-        format.json { render :show, status: :created, location: @timesheet }
-      else
-        format.html { render :new }
-        format.json { render json: @timesheet.errors, status: :unprocessable_entity }
-      end
+    @timesheets = []
+    params[:timesheet].each do |key, timesheet|
+      @timesheets << Timesheet.create(timesheet.permit(:project_id, :description, :hours))
     end
+    redirect_to timesheets_path, notice: 'Timesheets created successfully.'
+  rescue => exception
+    @exception = exception
+    render :new
   end
 
   # PATCH/PUT /timesheets/1

@@ -14,3 +14,19 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+  $(document).ready(function(){
+    $('#add-timesheet').click(function(e) {
+      $timesheetFields = $('.add-timesheet-fields');
+      $timesheetContainer = $('#timesheet-container');
+      $prevSheet = $timesheetFields.length;
+      $nextSheet = $prevSheet + 1;
+
+      $nextSheetContent = $timesheetFields.last().clone();
+
+      $nextSheetContent.find('.project_id').attr('name', 'timesheet[' + $nextSheet + '][project_id]');
+      $nextSheetContent.find('.description').attr('name', 'timesheet[' + $nextSheet + '][description]');
+      $nextSheetContent.find('.hours').attr('name', 'timesheet[' + $nextSheet + '][hours]');
+      $timesheetContainer.append($nextSheetContent);
+    });
+  });
