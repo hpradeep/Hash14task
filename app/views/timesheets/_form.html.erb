@@ -1,46 +1,73 @@
-<%= form_for(:timesheet, url: timesheets_path, method: :post) do |f| %>
-  <% if @exception.present? %>
-    <div id="error_explanation">
-      <ul>
-      <p><%= @exception %></p>
-    </div>
-  <% end %>
- <div id='timesheet-container'>
-  <%= f.fields_for :timesheet_1 do |ff| %>
-  <div class="add-timesheet-fields">
-    <div class="field">
-      <%= ff.label :Project_Name %><br>
-      <%= ff.select(:project_id,options_from_collection_for_select(Project.all,'id','name'), {}, class: 'project_id') %>
-    </div>
-    <div class="field">
-      <%=ff.label :description %><br>
-      <%=ff.text_area :description, class: 'description' %>
-    </div>
-    <div class="field">
-      <%= ff.label  :hours %><br>
-      <%= ff.select :hours, ['1','2','3','4','5','6','7','8'], {}, class: 'hours' %>
-    </div>
-  </div>
-  <% end %>
- </div>
-  <p>
-    <input type="button" id="add-timesheet" value ="Add Timesheet">
-  </p>
-  <div class = "actions">
-    <%= submit_tag "Save" %>
-  </div>
-  <%end%>
-  
+ <%= form_for(@timesheet) do |f| %> 
+	<% if @timesheet.errors.any? %>
+	  <div id="error-explanation">
+	    <h2><%= pluralize(@timesheet.errors.count,"error")%> prohibited this from being saved :</h2>
+	   <ul>
+	   <% @timesheet.errors.full_messages.each do |message|%>
+	    <li><%= message%></li>
+	    <%end%>
+	  </ul>
+	  </div>
+	<%end%>
+	<button type="button" id="new_timesheet">Add Timesheet</button>
+	<div id ="timesheet_container">
+		<div class="timesheet" id="timesheet0">
+			<div class="fields">
+			 <%=f.label :project_name%><br>
+			 <%=f.select :project_id,options_from_collection_for_select(Project.all,:id,:name),
+			 {prompt: "select"},{name: "timesheet[0][project_id]",id: "project_id[0]",required: "required"} %>
+
+			</div> 		  
+			<div class="fields">
+			 <%= f.label :Description %><br>
+			 <%= f.text_area :description,{name: "timesheet[0][description]",id: "description[0]" ,required: "required"}%>
+			</div>
+			<div class="fields">
+			 <%= f.label :Hours%><br>
+			 <%= f.select :hours,[0,1,2,3,4,5,6,7,8],{prompt:"select"},{name: "timesheet[0][hours]",id: "hours[0]",required: "required"}%><br><br/>
+			</div> 
+			<a  href="#" class="remove"  data-sheet="timesheet0">Remove</a><br><br/>
+		</div>
+	</div>
+	<div class="actions" id="create">
+	 <%= f.submit %>
+	</div>  
+<%end%>
+   <script type="text/javascript">
+   $(document).ready(function(){
+
+   	
+   	$("button#new_timesheet").click(function(){
+   	       var length = $(".timesheet").length;
+           
+   		$.ajax({
+   			url: "/timesheets/newtimesheet",
+   			type: "GET",
+   			data: {index: length }
+   			}).done(function(response){
+   				$("#timesheet_container").append(response.result);
+   				var length = $(".timesheet").length;
+   				if (length > 0){
+   					$("#create").show();
+   				}
+   			});
+   		});
+   	  $("#timesheet_container").on("click","a.remove",function(){
+   	  	$(this).parent("div").remove();
+   	  	var length = $(".timesheet").length;
+   	  	if (length == 0){
+   	  		$("#create").hide();
+   	  	}
+
+
+     // console.log($("#"+$(this).attr("data-sheet")));
+   	});
+  });
+   
 
    
-  
-
-
-
-
-
-
-<script>
-
-  </script>
-  
+    
+   		
+   </script>
+   				
+   		

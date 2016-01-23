@@ -33,12 +33,13 @@ a {
 
 div {
   &.field, &.actions {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+
   }
 }
 
 #notice {
-  color: green;
+  color: grey;
 }
 
 .field_with_errors {

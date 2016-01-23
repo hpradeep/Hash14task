@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :timesheets
+  resources :timesheets do 
+    collection do
+      get 'newtimesheet'
+      get 'sample'
+    end
+  end
   resources :projects
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

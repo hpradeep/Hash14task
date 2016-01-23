@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SAMPLE PAGE</title>
+	<style type="text/css">
+	 body{
+	 	
+	 	font-style:monospace;
+	 	background:grey;
+	 }
+	 ul{
+	 	list-style-type: none;/*removes the default bullet and other list styles*/
+	 	padding:0;
+	 	margin:0;
+	 	position:fixed;
+	 	
+	 	
+	 	
+	 	/*border:1px solid black;*/
+	 }
+	 
+
+	 li a{
+	 	/*for whole area clickable apart from link text area */
+	 	display:block;
+	 	padding:8px 8px;
+	 	text-align: center;
+	 	text-decoration: none;/*if given underline will go away*/
+	 	background:#ddd;
+	 	color:black;
+	 	width:300px;
+	 	
+	 	
+	 }
+	 li{
+	 	float:left;/*to display block elements slide ach other */
+	 	
+	 
+	 }
+	 li a:hover{
+	 	color:white;
+	 	background:#555;
+	 }
+	 li a.active{
+	 	color:white;
+	 	background:#4caf50;
+	 }
+	 form{
+	 	
+	 }
+	
+	</style>
+</head>
+<body>
+<ul>
+	<li><a href="#" class="active">Home</a></li>
+	<li><a href="#">About us</a></li>
+	<li><a href="#">Help</a></li>
+	<li><a htef="#">Contact</a></li>
+</ul><br/><br>
+
+ <form>
+    Enter the values:<br/>
+ 	<input type="text" name="some" placeholder="name"><br><br/>
+ 	Choose one: <br/>
+ 	<input type="radio" name="yes" value="aim">Hello
+ 	<input type="radio" name="yes" value="jai ho">Choose<br>
+ 	Check it: <br/>
+ 	<input type="checkbox" name="check me" value="something">Check me<br> 
+ </form>
+ 
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+<div class="timesheet" id="timesheet<%=index%>">
+	<div class="fields">
+		<%=label_tag :project_name%><br>
+        <%=select_tag :project_id,options_from_collection_for_select(Project.all,:id,:name),{name: "timesheet[#{index}][project_id]",id: "project_id#{index}",required: "required",prompt:"select"}%>
+	</div> 		  
+	<div class="fields">
+		<%= label_tag :Description %><br>
+		<%= text_area :description,{},{name: "timesheet[#{index}][description]",id: "descrition#{index}",required: "required"}%>
+	</div>
+	<div class="fields">
+		<%= label_tag :Hours%><br>
+		<%= select_tag :hours,options_for_select([0,1,2,3,4,5,6,7,8]),{name: "timesheet[#{index}][hours]",id: "hours#{index}",required:"required",prompt:"select"}%><br><br/>
+	</div> 
+
+	<a href="#" class="remove" data-sheet="timesheet<%=index%>">Remove</a><br>
+</div>

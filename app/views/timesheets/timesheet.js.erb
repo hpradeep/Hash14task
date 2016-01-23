@@ -1,0 +1,5 @@
+$(document).ready(function(){
+	$('#add-timesheet').click(function(){
+		$('#timesheet-container').append("<%= j render(:partial => 'timesheet/form') %>");
+	});
+});

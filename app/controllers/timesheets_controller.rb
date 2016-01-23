@@ -20,22 +20,21 @@ class TimesheetsController < ApplicationController
   # GET /timesheets/1/edit
   def edit
   end
+  def sample
+  
+  end
 
   # POST /timesheets
   # POST /timesheets.json
   def create
-    @timesheets = []
-    params[:timesheet].each do |key, timesheet|
-      @timesheets << Timesheet.create(timesheet.permit(:project_id, :description, :hours))
-    end
-    redirect_to timesheets_path, notice: 'Timesheets created successfully.'
-  rescue => exception
-    @exception = exception
-    render :new
-  end
 
-  # PATCH/PUT /timesheets/1
-  # PATCH/PUT /timesheets/1.json
+      params[:timesheet].each do |key,value|
+      Timesheet.create(:project_id => value[:project_id],:description => value[:description],:hours => value[:hours])
+       end
+       redirect_to "/timesheets",notice: "Timesheet created successfully" 
+  end     
+
+   
   def update
     respond_to do |format|
       if @timesheet.update(timesheet_params)
@@ -53,19 +52,20 @@ class TimesheetsController < ApplicationController
   def destroy
     @timesheet.destroy
     respond_to do |format|
-      format.html { redirect_to timesheets_url, notice: 'Timesheet was successfully destroyed.' }
+      format.html { redirect_to timesheets_path, notice: 'Timesheet was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
+   def newtimesheet
+     render :json =>{result: render_to_string(partial: "timesheets/new_timesheet",locals: {index: params[:index]})}.to_json
+   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_timesheet
       @timesheet = Timesheet.find(params[:id])
     end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_params
-      params.require(:timesheet).permit(:project_id, :description, :hours)
+      params.require(:timesheet).permit(:project_id,:description,:hours)
     end
 end
