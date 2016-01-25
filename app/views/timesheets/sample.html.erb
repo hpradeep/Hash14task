@@ -1,5 +1,5 @@
 <p>
-<button id="button">Add Field</button>
+<button style=background-color:red;color:balck; id="button">+</button>
 </p>
 <div id="items">
   <div><input type="text" name="input[]"></div>
@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#button").on("click",function(e){
-			$("#items").append('<div><input type="text" name="input[]"><button class="delete">Delete</button></div>');
+			$("#items").append('<div><input type="text" name="input[]"><button style=background-color:grey;color:white; class="delete">-</button></div>');
 		});
 		$("body").on("click",".delete",function(){
 			$(this).parent("div").remove();

@@ -9,30 +9,33 @@
 	  </ul>
 	  </div>
 	<%end%>
-	<button type="button" id="new_timesheet">Add Timesheet</button>
-	<div id ="timesheet_container">
-		<div class="timesheet" id="timesheet0">
-			<div class="fields">
-			 <%=f.label :project_name%><br>
-			 <%=f.select :project_id,options_from_collection_for_select(Project.all,:id,:name),
-			 {prompt: "select"},{name: "timesheet[0][project_id]",id: "project_id[0]",required: "required"} %>
+	<button type="button" id="new_timesheet" style="margin-left:55px" class="btn-info">Add Timesheet</button><br></br>
+	<div id ="timesheet_container" class="container">
+	        <div class="timesheet row form-inline" id="timesheet0" style="border:1px solid grey; background:#555;margin:10px 150px 25px 16px;">
+	            
+		        <div class="form-group col-xs-2" style="padding:10px;margin:5px;">
+				 <%=f.select :project_id,options_from_collection_for_select(Project.all,:id,:name), {prompt: "Project"},{name: "timesheet[0][project_id]",id: "project_id[0]",required: "required",class: "form-control"} %>
+				</div>
+		   
+		   	
+				<div class="form-group col-xs-2" style="padding:10px;margin:5px;">
+				  <%= f.select :hours,[0,1,2,3,4,5,6,7,8],{prompt:"Hours"},{name: "timesheet[0][hours]",id: "hours[0]",required: "required",class: "form-control"}%><br><br/>
+				</div>
+			
+			 
+	            <div class="form-group col-xs-5" style="padding:10px;margin:5px;">
+			     <%= f.text_area :description,{name: "timesheet[0][description]",id: "description[0]" ,required: "required",placeholder: "Description",class: "form-control"}%>
+				</div>
+				
 
-			</div> 		  
-			<div class="fields">
-			 <%= f.label :Description %><br>
-			 <%= f.text_area :description,{name: "timesheet[0][description]",id: "description[0]" ,required: "required"}%>
+				 <button class="remove btn btn-danger" style="padding:12px;margin:13px;" data-sheet="timesheet0" >X</button><br><br/>
 			</div>
-			<div class="fields">
-			 <%= f.label :Hours%><br>
-			 <%= f.select :hours,[0,1,2,3,4,5,6,7,8],{prompt:"select"},{name: "timesheet[0][hours]",id: "hours[0]",required: "required"}%><br><br/>
-			</div> 
-			<a  href="#" class="remove"  data-sheet="timesheet0">Remove</a><br><br/>
-		</div>
+
 	</div>
-	<div class="actions" id="create">
-	 <%= f.submit %>
-	</div>  
-<%end%>
+	<div class="actions" id="create" style="text-align:center;margin-right:200px">
+	 <%= f.submit("Save Entries",{class: "btn btn-primary"}) %>
+	</div>
+	<%end%>
    <script type="text/javascript">
    $(document).ready(function(){
 
@@ -52,7 +55,7 @@
    				}
    			});
    		});
-   	  $("#timesheet_container").on("click","a.remove",function(){
+   	  $("#timesheet_container").on("click","button.remove",function(){
    	  	$(this).parent("div").remove();
    	  	var length = $(".timesheet").length;
    	  	if (length == 0){
