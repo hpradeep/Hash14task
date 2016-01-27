@@ -1,0 +1,40 @@
+
+<div class="timesheet row form-inline" id="<%= generate_new_timesheet_id(timesheet.id) %>" style="border:1px solid grey;background-color:#555;margin:10px 150px 16px 16px;">
+   <%=form_for :timesheet,url: timesheet_path(timesheet),method: :patch do |f|%>
+	<div class=" form-group col-xs-2" style="padding:5px;margin:5px;">
+		
+        <%=f.select :project_id,options_from_collection_for_select(Project.all,:id,:name,timesheet.project_id),{},{required: "required",prompt:"Project",class: "up form-control",data: {project_id: timesheet.project_id}}%>
+	</div>
+	<div class="  form-group col-xs-2" style="padding:5px;margin:5px;">
+		
+		<%=f.select :hours,options_for_select([0,1,2,3,4,5,6,7,8],timesheet.hours),{},{required:"required",prompt:"Hours",class: "up form-control",data: {hours: timesheet.hours}}%><br><br/>
+	</div>  		  
+	<div class=" form-group col-xs-5" style="padding:5px;margin:5px;">
+		
+		<%=f.text_area :description,{required: "required",placeholder: "Description",class: " up form-control",value: timesheet.description,data: {description: timesheet.description}}%>
+	</div>
+	
+
+	<%=f.submit("update",class: " update btn btn-primary",style: "padding:3px;margin:10px",disabled: "disabled")%>
+</div>
+
+<%= link_to 'Back',timesheets_path%>
+<%end%>
+<script type="text/javascript">
+   $(document).ready(function(){
+
+   	$(".up").on("change",function(){
+
+
+   		if($("#timesheet_project_id").val() !== $("#timesheet_project_id").data("project-id").toString() ||$("#timesheet_hours").val() !== $("#timesheet_hours").data("hours").toString() || $("#timesheet_description").val() !== $("#timesheet_description").data("description"))
+           $(".update").removeAttr('disabled');
+   	 else { 
+   	 	    console.log("fjhbjk");
+   	 	   $(".update").attr('disabled','disabled');
+   	 	}
+
+
+
+   	});
+   });
+   </script>

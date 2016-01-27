@@ -1,8 +1,11 @@
+<div class="flash" style="color:green;">
 <p id="notice"><%= notice %></p>
+</div>
+<div class="container" id="ind">
 
 <h1>Listing Timesheets</h1>
-
-<table>
+<body>
+<table class="table table-inverse">
   <thead>
     <tr>
       <th>Project Name</th>
@@ -19,14 +22,28 @@
         <td><%= timesheet.description %></td>
         <td><%= timesheet.hours %></td>
         <td><%= link_to 'Show', timesheet %></td>
-        <td><%= link_to 'Edit', edit_timesheet_path(timesheet) %></td>
-        <td><%= link_to 'Destroy', timesheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit','#',class: "btn btn-primary edit",data: {id: timesheet.id} %></td>
+        <td><%= link_to 'Destroy', timesheet,class: "btn btn-danger", remote: true,method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
+</body>
 <%= link_to 'new timsheet',new_timesheet_path%>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".flash").fadeOut(4000);
+    $(".edit").click(function(){
+      id = $(this).data('id')
+      $.ajax({
+        url: "/timesheets/" + id + '/edit',
+        type: "GET" 
+      }).done(function(response){
+        $("#ind").html(response);
+      });
+    });
+    
+  });
+</script>
 

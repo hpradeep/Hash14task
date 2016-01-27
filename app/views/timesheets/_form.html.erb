@@ -11,7 +11,7 @@
 	<%end%>
 	<button type="button" id="new_timesheet" style="margin-left:55px" class="btn-info">Add Timesheet</button><br></br>
 	<div id ="timesheet_container" class="container">
-	        <div class="timesheet row form-inline" id="timesheet0" style="border:1px solid grey; background:#555;margin:10px 150px 25px 16px;">
+	        <div class="timesheet row form-inline" id="timesheet-0" style="border:1px solid grey; background:#555;margin:10px 150px 25px 16px;">
 	            
 		        <div class="form-group col-xs-2" style="padding:10px;margin:5px;">
 				 <%=f.select :project_id,options_from_collection_for_select(Project.all,:id,:name), {prompt: "Project"},{name: "timesheet[0][project_id]",id: "project_id[0]",required: "required",class: "form-control"} %>
@@ -48,7 +48,8 @@
    			type: "GET",
    			data: {index: length }
    			}).done(function(response){
-   				$("#timesheet_container").append(response.result);
+   				debugger;
+   				$("#timesheet_container").append(response);
    				var length = $(".timesheet").length;
    				if (length > 0){
    					$("#create").show();

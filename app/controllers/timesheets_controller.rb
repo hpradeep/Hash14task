@@ -10,15 +10,20 @@ class TimesheetsController < ApplicationController
   # GET /timesheets/1
   # GET /timesheets/1.json
   def show
+    
   end
 
   # GET /timesheets/new
   def new
     @timesheet = Timesheet.new
+
   end
 
   # GET /timesheets/1/edit
   def edit
+  render partial: 'timesheets/edit', locals: {timesheet: @timesheet}
+  puts @timesheet.project.name
+    #render :json => {result: render_to_string{partial: "timesheets/form",locals:  {}}}
   end
   def sample
   
@@ -38,11 +43,9 @@ class TimesheetsController < ApplicationController
   def update
     respond_to do |format|
       if @timesheet.update(timesheet_params)
-        format.html { redirect_to @timesheet, notice: 'Timesheet was successfully updated.' }
+        format.html { redirect_to timesheets_path,notice: 'Timesheet was successfully updated.' }
         format.json { render :show, status: :ok, location: @timesheet }
-      else
-        format.html { render :edit }
-        format.json { render json: @timesheet.errors, status: :unprocessable_entity }
+     
       end
     end
   end
@@ -56,9 +59,10 @@ class TimesheetsController < ApplicationController
       format.json { head :no_content }
     end
   end
-   def newtimesheet
-     render :json =>{result: render_to_string(partial: "timesheets/new_timesheet",locals: {index: params[:index]})}.to_json
-   end
+
+  def newtimesheet
+    render partial: 'timesheets/new_timesheet', locals: {index: params[:index]}
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
