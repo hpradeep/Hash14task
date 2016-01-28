@@ -11,3 +11,11 @@
  </form>
 </body>
 </html>
+
+id = $(this).data('id')
+      $.ajax({
+        url: "/timesheets/" + id + '/edit',
+        type: "GET" 
+      }).done(function(response){
+        $("#ind").html(response);
+      });

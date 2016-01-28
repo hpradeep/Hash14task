@@ -4,46 +4,86 @@
 <div class="container" id="ind">
 
 <h1>Listing Timesheets</h1>
-<body>
-<table class="table table-inverse">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Project Name</th>
-      <th>Description</th>
       <th>Hours</th>
-      <th colspan="3"></th>
+      <th>Description</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @timesheets.each do |timesheet| %>
-      <tr>
-        <td><%= timesheet.project.name %></td>
-        <td><%= timesheet.description %></td>
-        <td><%= timesheet.hours %></td>
-        <td><%= link_to 'Show', timesheet %></td>
-        <td><%= link_to 'Edit','#',class: "btn btn-primary edit",data: {id: timesheet.id} %></td>
-        <td><%= link_to 'Destroy', timesheet,class: "btn btn-danger", remote: true,method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <tr id="timesheet-<%=timesheet.id%>">
+        <td id="s-project-id-<%=timesheet.id%>" ><%= timesheet.project.name %></td>
+        <td id="s-hours-<%=timesheet.id%>"><%= timesheet.hours %></td>
+        <td id="s-description-<%=timesheet.id%>"><%= timesheet.description %></td>
+        
+        <td><%= link_to 'Edit','#',class: "btn btn-sm btn-primary edit",data: {id: timesheet.id} %></td>
+        <td><%= link_to 'Destroy', timesheet,class: " up btn btn-sm btn-danger",method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <tr class="edit-row" id="timesheet-edit-<%=timesheet.id%>">
+        <td><%=select_tag :project_id,options_from_collection_for_select(Project.all,:id,:name,timesheet.project_id),
+        {prompt: "Project",id: "e-project-id-#{timesheet.id}",required: "required",class: "up form-control"}%></td>
+        <td><%=select_tag :hours,options_for_select([0,1,2,3,4,5,6,7,8],timesheet.hours),{id: "e-hours-#{timesheet.id}",required:"required",prompt:"Hours",class: " up form-control"}%><br><br></td>
+        <td><%=text_area :description,{},{id: "e-description-#{timesheet.id}",required: "required",placeholder: "Description",value: timesheet.description,class: "form-control"}%></td>
+        <td><%= link_to 'Update','#',class: "btn btn-sm btn-primary update",data: {id: timesheet.id} %></td>
+        <td><%= link_to 'Cancel','#',class: "btn btn-sm btn-default cancel",data: {id: timesheet.id} %></td>
+       
+   
+        </tr>
     <% end %>
   </tbody>
 </table>
-</body>
 <%= link_to 'new timsheet',new_timesheet_path%>
 </div>
+<% content_for :javascript do %>
 <script type="text/javascript">
   $(document).ready(function(){
-    $(".flash").fadeOut(4000);
-    $(".edit").click(function(){
-      id = $(this).data('id')
-      $.ajax({
-        url: "/timesheets/" + id + '/edit',
-        type: "GET" 
-      }).done(function(response){
-        $("#ind").html(response);
+    $(".edit-row").hide();
+    //$(".flash").fadeOut(4000);
+
+    $("a.edit").click(function(){
+     $("#timesheet-edit-"+$(this).data("id")).fadeIn("slow");
+     $("#timesheet-"+$(this).data("id")).hide();
       });
+    $("a.cancel").click(function(){
+     $("#timesheet-edit-"+$(this).data("id")).hide();
+     $("#timesheet-"+$(this).data("id")).show();
+      });
+    $("a.update").click(function(){
+     var id = $(this).data("id");
+     var project_id = $("#e-project-id-"+id).val();
+     var hours = $("#e-hours-" +id).val();
+     var description = $("#e-description-"+id).val();
+      $.ajax({
+          url: "/timesheets/" +id,
+          type: "PUT",
+          data: {id: id,timesheet: {project_id: project_id,hours: hours,description: description}}}).done(function(response){
+            if (response.status == "success"){
+            $("#s-project-id-"+id).html(response.timesheet.project_name);
+            $("#s-hours-"+id).html(response.timesheet.hours);
+            $("#s-description-"+id).html(response.timesheet.description);
+             console.log($("#timesheet-edit-"+response.timesheet.id.toString()));
+             $("#timesheet-edit-"+response.timesheet.id.toString()).hide();
+             $("#timesheet-"+response.timesheet.id.toString()).show();
+
+            }
+
+
+             
+          });
+
+
+
+      });
+    
+     
     });
     
-  });
+  
 </script>
+<%end%>
 

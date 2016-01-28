@@ -41,13 +41,14 @@ class TimesheetsController < ApplicationController
 
    
   def update
-    respond_to do |format|
+    
       if @timesheet.update(timesheet_params)
-        format.html { redirect_to timesheets_path,notice: 'Timesheet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @timesheet }
-     
+        
+        render :json => {status: "success", timesheet:  {id: @timesheet.id,project_name: @timesheet.project.name,hours: @timesheet.hours,description: @timesheet.description }}
+      else
+         render :json => {status: "success"}
       end
-    end
+    
   end
 
   # DELETE /timesheets/1
