@@ -12,7 +12,14 @@
 <%= link_to 'sample',sample_timesheets_path %>
 <body>
 
+<img src="/assets/ajax.gif" id="spinner"  alt="spinner">
+
 <%= yield %>
-<%= yield :javascript %>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#spinner").hide();
+	});
+</script>
 </body>
 </html>

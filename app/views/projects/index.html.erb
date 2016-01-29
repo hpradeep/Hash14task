@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<div class="container" id="sometable">
 
 <h1>Listing Projects</h1>
 
@@ -31,4 +32,20 @@
 <br>
 
 <%= link_to 'New Project', new_project_path %>
-<%= link_to  'Time Sheets',timesheets_path %>
+<%= link_to  'Time Sheets',"#",class: "time" %><br></br>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".time").click(function(){
+      $("#spinner").show();
+      $.ajax({
+        url: "/timesheets",
+        type: "GET",
+     }).done(function(response){
+      $(".container").empty().html(response);
+      $("#spinner").hide();
+
+      });
+    });
+  });
+</script>

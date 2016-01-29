@@ -5,6 +5,7 @@ class TimesheetsController < ApplicationController
   # GET /timesheets.json
   def index
     @timesheets = Timesheet.all
+    render layout: false
   end
 
   # GET /timesheets/1
@@ -46,7 +47,7 @@ class TimesheetsController < ApplicationController
         
         render :json => {status: "success", timesheet:  {id: @timesheet.id,project_name: @timesheet.project.name,hours: @timesheet.hours,description: @timesheet.description }}
       else
-         render :json => {status: "success"}
+         render :json => {status: "failure"}
       end
     
   end

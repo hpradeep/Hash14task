@@ -37,9 +37,10 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'new timsheet',new_timesheet_path%>
+<%= link_to 'New timsheet',new_timesheet_path%>
+<%= link_to 'Back',projects_path %>
 </div>
-<% content_for :javascript do %>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $(".edit-row").hide();
@@ -85,5 +86,5 @@
     
   
 </script>
-<%end%>
+
 
