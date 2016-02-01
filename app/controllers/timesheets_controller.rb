@@ -5,12 +5,13 @@ class TimesheetsController < ApplicationController
   # GET /timesheets.json
   def index
     @timesheets = Timesheet.all
-    render layout: false
+    render :json => @timesheets,:include => {:project => {:only => :name}} 
   end
 
   # GET /timesheets/1
   # GET /timesheets/1.json
   def show
+    
     
   end
 

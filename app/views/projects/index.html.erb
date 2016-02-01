@@ -3,7 +3,7 @@
 
 <h1>Listing Projects</h1>
 
-<table class="table table-inverse">
+<table class="table table-hover">
   <thead>
     <tr>
 
@@ -34,6 +34,7 @@
 <%= link_to 'New Project', new_project_path %>
 <%= link_to  'Time Sheets',"#",class: "time" %><br></br>
 </div>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $(".time").click(function(){
@@ -42,7 +43,31 @@
         url: "/timesheets",
         type: "GET",
      }).done(function(response){
-      $(".container").empty().html(response);
+      
+   var html = "<h1>Listing Timesheets</h1><table class='table table-hover'><thead>"+
+      "<tr>"+
+     "<th>Project Name</th>"+
+      "<th>Hours</th>"+
+       "<th>Description</th>"+
+       "<th colspan='2'></th>"+
+      "</tr></thead><tbody>";
+   for (timesheet in response)
+   {
+     var task = response[timesheet].id;
+     html +="<tr id='timesheet-"+task+"'><td id='s-project-id-"+task+"'>"+response[timesheet].project.name+"</td>";
+     html +="<td id='s-hours-"+task+"'>"+response[timesheet].hours+"</td>";
+     html +="<td id='s-description-"+task+"'>"+response[timesheet].description+"</td>";
+     html +="<td><a class='btn btn-primary edit' href='#/timesheets/"+task+"/edit' data-id='task'>Edit</a></td>";
+     html +="<td><a class='btn btn-danger' href='/timesheets/"+task+"data-method='delete' rel='nofollow' data-confirm='Are you sure?'>Destroy</a></td></tr>";
+  }
+
+    
+      html +="</tbody></table>";
+      html +="<a href='/timesheets/new'>New Timesheet</a>";
+      html +="<a  href='/projects'>Back</a>";
+
+     $(".container").html(html);
+       
       $("#spinner").hide();
 
       });
